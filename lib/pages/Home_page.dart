@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '/models/catalog.dart';
+
 import '/widgets/bottomBar.dart';
 import '/widgets/drawer.dart';
-import '/widgets/item_widgets.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -12,14 +11,7 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Text("Zeal Industries"),
       ),
-      body: ListView.builder(
-        itemCount: CatalogModel.items.length,
-        itemBuilder: (context, index) {
-          return ItemWidget(
-            item: CatalogModel.items[index],
-          );
-        },
-      ),
+      body: Container(),
       drawer: MyDrawer(),
       bottomNavigationBar: MyBootomBar(),
     );

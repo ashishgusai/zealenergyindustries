@@ -1,7 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+
+final String gloabalUrl = "http://zealenergyindustries.com/new/api/";
+final userLogin = "user/login";
 
 Future loginUser(String username, String password) async {
   final String url = "http://zealenergyindustries.com/new/api/user/login";
@@ -25,4 +29,16 @@ Future loginUser(String username, String password) async {
   }
 
   return json.decode(response.toString())['success'];
+}
+
+dynamic postApiCall(String method, Map<String, String> params) async {
+  return await http
+      .post(
+    Uri.parse(gloabalUrl + method),
+    body: params,
+  )
+      .then((http.Response response) {
+    print(response.body);
+    return json.decode(response.body);
+  });
 }

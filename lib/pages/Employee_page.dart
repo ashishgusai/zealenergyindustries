@@ -11,8 +11,7 @@ class EmployeePage extends StatefulWidget {
 
 class _EmployeePageState extends State<EmployeePage> {
   TextEditingController searchcontoller = new TextEditingController();
-  double searchtop = 50;
-  double searchleft = 10;
+
   final imageUrl =
       "https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg";
   @override
@@ -21,6 +20,26 @@ class _EmployeePageState extends State<EmployeePage> {
       appBar: AppBar(
         title: Text("Employee"),
         centerTitle: true,
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(top: 0, right: 10, left: 20),
+            child: AnimSearchBar(
+              prefixIcon: Icon(Icons.search, color: Colors.deepPurple),
+              suffixIcon: Icon(Icons.clear, color: Colors.deepPurple),
+              rtl: true,
+              width: 330,
+              style: TextStyle(
+                color: Colors.deepPurple,
+              ),
+              textController: searchcontoller,
+              onSuffixTap: () {
+                setState(() {
+                  searchcontoller.clear();
+                });
+              },
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -98,33 +117,6 @@ class _EmployeePageState extends State<EmployeePage> {
 
           /// In AnimSearchBar widget, the width, textController, onSuffixTap are required properties.
           /// You have also control over the suffixIcon, prefixIcon, helpText and animationDurationInMilli
-          GestureDetector(
-            child: Padding(
-              padding:
-                  EdgeInsets.only(top: searchtop, right: 10, left: searchleft),
-              child: AnimSearchBar(
-                prefixIcon: Icon(Icons.search, color: Colors.deepPurple),
-                suffixIcon: Icon(Icons.clear, color: Colors.deepPurple),
-                rtl: false,
-                width: 400,
-                style: TextStyle(
-                  color: Colors.deepPurple,
-                ),
-                textController: searchcontoller,
-                onSuffixTap: () {
-                  setState(() {
-                    searchcontoller.clear();
-                  });
-                },
-              ),
-            ),
-            onVerticalDragUpdate: (DragUpdateDetails dd) {
-              setState(() {
-                searchtop = dd.localPosition.dy;
-                searchleft = dd.localPosition.dx;
-              });
-            },
-          ),
         ],
       ),
     );
