@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   String? name = "";
   final formkey = GlobalKey<FormState>();
 
-  checkUsernames() async {
+  Future<bool> checkUsernames() async {
     Map<String, String> param = new Map<String, String>();
     param['email'] = loginUsername.text.trim().toString();
     param['password'] = passwordUsername.text.trim().toString();
@@ -29,21 +29,22 @@ class _LoginPageState extends State<LoginPage> {
 
     print(response["message"]);
     print(response["status"].toString());
-    if (response["status"] == "true") {
+    if (response["status"]) {
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString("token", response["xtoken"]);
+      prefs.setString("token", response["data"]["xtoken"]);
       prefs.setBool("isLogin", true);
       prefs.setString("email", loginUsername.text);
+      prefs.setString("id", response["data"]["ID"].toString());
     }
     Loader.hide();
-    return response["status"].toString();
+    return response["status"];
   }
 
   moveToHome(BuildContext context) async {
     if (formkey.currentState!.validate()) {
       Loader.show(context, progressIndicator: CircularProgressIndicator());
       print("${loginUsername.text} has password ${passwordUsername.text}");
-      if (await checkUsernames() == "true") {
+      if (await checkUsernames()) {
         await Future.delayed(Duration(milliseconds: 200));
         await Navigator.pushNamed(context, MyRoutes.homeRoute);
 

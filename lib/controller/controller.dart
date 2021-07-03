@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 final String gloabalUrl = "http://zealenergyindustries.com/new/api/";
 final userLogin = "user/login";
+final employeeDetails = "Employee/employeelist";
 
 Future loginUser(String username, String password) async {
   final String url = "http://zealenergyindustries.com/new/api/user/login";

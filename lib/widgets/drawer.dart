@@ -55,7 +55,7 @@ class MyDrawer extends StatelessWidget {
               },
               child: ListTile(
                 leading: Icon(
-                  CupertinoIcons.profile_circled,
+                  Icons.assignment_ind_outlined,
                 ),
                 title: Text(
                   "Employee",
@@ -63,15 +63,38 @@ class MyDrawer extends StatelessWidget {
                 ),
               ),
             ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, MyRoutes.client);
+              },
+              child: ListTile(
+                leading: Icon(
+                  CupertinoIcons.profile_circled,
+                ),
+                title: Text(
+                  "Clients",
+                  textScaleFactor: 1.5,
+                ),
+              ),
+            ),
             ListTile(
               leading: Icon(
-                CupertinoIcons.mail,
+                CupertinoIcons.bolt_horizontal,
               ),
               title: Text(
-                "Email Me",
+                "About Us",
                 textScaleFactor: 1.5,
               ),
-            )
+            ),
+            ListTile(
+              leading: Icon(
+                CupertinoIcons.arrow_right_circle,
+              ),
+              title: Text(
+                "Log Out",
+                textScaleFactor: 1.5,
+              ),
+            ),
           ],
         ),
       ),
