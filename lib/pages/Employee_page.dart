@@ -1,12 +1,14 @@
 import 'dart:ui';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+
 import 'package:zealenergyindustries/controller/controller.dart';
 import 'package:zealenergyindustries/models/employee_model.dart';
+import 'package:zealenergyindustries/utils/Employee_pageutility.dart';
 import 'package:zealenergyindustries/utils/anime_search_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zealenergyindustries/utils/routes.dart';
@@ -113,67 +115,85 @@ class _EmployeePageState extends State<EmployeePage> {
                         Slidable(
                           actionPane: SlidableDrawerActionPane(),
                           actionExtentRatio: 0.25,
-                          child: Container(
-                              color: Colors.white,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(25, 10, 0, 0),
-                                    child: Text(
-                                      fetchingEmployee![index].username!,
-                                      style: TextStyle(
-                                          color: Colors.deepPurple,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, MyRoutes.employeeRouteEdit);
+                            },
+                            child: Container(
+                                color: Colors.white,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.fromLTRB(25, 10, 0, 0),
+                                      child: Text(
+                                        fetchingEmployee![index].username!,
+                                        style: TextStyle(
+                                            color: Colors.deepPurple,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                                  Divider(
-                                    thickness: 1,
-                                    color: Colors.deepPurple,
-                                    indent: 26,
-                                    endIndent: 20,
-                                  ),
-                                  ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.indigoAccent,
-                                      child:
-                                          Image(image: NetworkImage(imageUrl)),
-                                      foregroundColor: Colors.white,
+                                    Divider(
+                                      thickness: 1,
+                                      color: Colors.deepPurple,
+                                      indent: 26,
+                                      endIndent: 20,
                                     ),
-                                    title: Text(
-                                        fetchingEmployee![index].firstName! +
-                                            fetchingEmployee![index].lastName!),
-                                    subtitle:
-                                        Text(fetchingEmployee![index].email!),
-                                  ),
-                                ],
-                              )),
+                                    ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.indigoAccent,
+                                        child: Image(
+                                            image: NetworkImage(imageUrl)),
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      title: Text(fetchingEmployee![index]
+                                              .firstName! +
+                                          fetchingEmployee![index].lastName!),
+                                      subtitle:
+                                          Text(fetchingEmployee![index].email!),
+                                    ),
+                                  ],
+                                )),
+                          ),
                           actions: <Widget>[
-                            IconSlideAction(
-                                caption: 'Edit',
-                                color: Colors.blue,
-                                icon: Icons.edit,
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, MyRoutes.employeeRouteEdit);
-                                } //_showSnackBar('Archive'),
-                                ),
                             IconSlideAction(
                                 caption: 'Delete',
                                 color: Colors.indigo,
                                 icon: Icons.delete,
-                                onTap: () {} //_showSnackBar('Archive'),
+                                onTap: () {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      title: const Text('Delete Employee'),
+                                      content: const Text('Are You Sure?'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('No'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('Yes'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } //_showSnackBar('Archive'),
                                 ),
-                          ],
-                          secondaryActions: <Widget>[
                             IconSlideAction(
                                 caption: 'Reset',
                                 color: Colors.black45,
                                 icon: Icons.reset_tv,
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, MyRoutes.employeeRouteReset);
+                                  displayTextInputDialog(context);
+                                  // Navigator.pushNamed(
+                                  //     context, MyRoutes.employeeRouteReset);
                                 } //_showSnackBar('Archive'),
                                 ),
                             IconSlideAction(
@@ -181,10 +201,8 @@ class _EmployeePageState extends State<EmployeePage> {
                                 color: Colors.red,
                                 icon: Icons.admin_panel_settings,
                                 onTap: () {
-                                  Navigator.pushNamed(context,
-                                      MyRoutes.employeeRoutePermission);
-                                } //_showSnackBar('Archive'),
-                                ),
+                                  displayCheckBoxDialog(context);
+                                }),
                           ],
                         ),
                       ],
@@ -199,6 +217,13 @@ class _EmployeePageState extends State<EmployeePage> {
                 /// You have also control over the suffixIcon, prefixIcon, helpText and animationDurationInMilli
               ],
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, MyRoutes.employeeRouteEdit);
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.deepPurple,
+      ),
     );
   }
 }

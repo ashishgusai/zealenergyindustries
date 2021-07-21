@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zealenergyindustries/models/homePageTiles.dart';
+import 'package:zealenergyindustries/pages/Home_Page_Graph.dart';
 import 'package:zealenergyindustries/utils/expansion_card.dart';
 import 'package:zealenergyindustries/widgets/dashBoardTileWidget.dart';
 
@@ -61,14 +62,9 @@ class _HomeStatsState extends State<HomeStats> {
                   backgroundColor: Colors.deepPurple,
                   collapsedBackgroundColor: Colors.deepPurple,
                   initiallyExpanded: false,
-                  onExpansionChanged: (value) {
-                    value
-                        ? expansionHeading = "22-05-2021"
-                        : expansionHeading = " + Rs. 500";
-                    setState(() {});
-                  },
-                  trailing: Text(expansionHeading),
-                  title: Text("Buyer Name"),
+
+                  trailing: Text("22-05-2021"),
+                  title: Text("Party Name"),
                   //subtitle: Text("Buyer Name"),
                   children: [
                     Container(
@@ -97,9 +93,8 @@ class _HomeStatsState extends State<HomeStats> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Expanded(
-                              flex: 2, child: Text('Zeal Filled Cylinder')),
+                              flex: 4, child: Text('Zeal Filled Cylinder')),
                           Expanded(flex: 1, child: Text('X10')),
-                          Expanded(flex: 1, child: Text('Rs. 500')),
                         ],
                       ),
                       decoration: BoxDecoration(
@@ -114,9 +109,8 @@ class _HomeStatsState extends State<HomeStats> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Expanded(flex: 2, child: Text('Total')),
+                          Expanded(flex: 4, child: Text('Total')),
                           Expanded(flex: 1, child: Text('X20')),
-                          Expanded(flex: 1, child: Text('Rs. 500')),
                         ],
                       ),
                       decoration: BoxDecoration(
@@ -131,6 +125,8 @@ class _HomeStatsState extends State<HomeStats> {
                 ),
               ],
             ),
+            SizedBox(height: 20),
+            SalesGraph(),
             SizedBox(height: 100)
           ],
         ),

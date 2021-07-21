@@ -34,6 +34,8 @@ class _LoginPageState extends State<LoginPage> {
       prefs.setString("token", response["data"]["xtoken"]);
       prefs.setBool("isLogin", true);
       prefs.setString("email", loginUsername.text);
+      prefs.setString("fname", response["data"]["first_name"]);
+      prefs.setString("lname", response["data"]["last_name"]);
       prefs.setString("id", response["data"]["ID"].toString());
     }
     Loader.hide();

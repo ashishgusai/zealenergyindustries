@@ -1,8 +1,35 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zealenergyindustries/utils/routes.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
+  @override
+  _MyDrawerState createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String name = "";
+  String email = "";
+
+  Future<bool> checkLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    print("splash" + prefs.getString("fname").toString());
+    name = prefs.getString("fname").toString() +
+        " " +
+        prefs.getString("lname").toString();
+    email = prefs.getString("email").toString();
+    setState(() {});
+    print("splash" + name.toString());
+    return prefs.getBool("isLogin")!;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkLogin();
+  }
+
   final imageUrl =
       "https://st2.depositphotos.com/1104517/11965/v/600/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg";
   @override
@@ -28,8 +55,8 @@ class MyDrawer extends StatelessWidget {
                 // decoration: BoxDecoration(
                 //   color: Colors.deepPurple,
                 // ),
-                accountName: Text("Vatsal"),
-                accountEmail: Text("Vatsal407@gmail.com"),
+                accountName: Text(name),
+                accountEmail: Text(email),
                 currentAccountPicture: CircleAvatar(
                   backgroundImage: NetworkImage(imageUrl),
                 ),
@@ -86,13 +113,24 @@ class MyDrawer extends StatelessWidget {
                 textScaleFactor: 1.5,
               ),
             ),
-            ListTile(
-              leading: Icon(
-                CupertinoIcons.arrow_right_circle,
-              ),
-              title: Text(
-                "Log Out",
-                textScaleFactor: 1.5,
+            GestureDetector(
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setString("token", "");
+                prefs.setBool("isLogin", false);
+                prefs.setString("email", "");
+                prefs.setString("id", "");
+                print("vatsal Shah" + prefs.getString("token")!);
+                Navigator.pushNamed(context, MyRoutes.loginRoute);
+              },
+              child: ListTile(
+                leading: Icon(
+                  CupertinoIcons.arrow_right_circle,
+                ),
+                title: Text(
+                  "Log Out",
+                  textScaleFactor: 1.5,
+                ),
               ),
             ),
           ],

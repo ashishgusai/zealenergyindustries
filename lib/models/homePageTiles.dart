@@ -28,12 +28,12 @@ var homePageCard = [
     "counter": "12"
   },
   {
-    "iconsused": Icons.battery_alert_outlined,
+    "iconsused": Icons.battery_charging_full_outlined,
     "details": "Filled Cylinder",
     "counter": "1000"
   },
   {
-    "iconsused": Icons.assignment_ind_outlined,
+    "iconsused": Icons.battery_alert_outlined,
     "details": "Empty Cylinder",
     "counter": "274"
   },
