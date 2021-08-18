@@ -15,7 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<bool> checkLogin() async {
     final prefs = await SharedPreferences.getInstance();
 
-    prefs.getBool("isLogin")! ? value = HomePage() : value = LoginPage();
+    prefs.containsKey("isLogin") && prefs.getBool("isLogin")!
+        ? value = HomePage()
+        : value = LoginPage();
     setState(() {});
     print("splash" + value.toString());
     return prefs.getBool("isLogin")!;
